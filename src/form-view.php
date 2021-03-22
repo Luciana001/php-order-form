@@ -14,10 +14,10 @@
     <nav>
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link active" href="?food=1">Order pizzas</a>
+                <a class="nav-link active" name="pizzas" href="?food=1">Order pizzas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?food=0">Order drinks</a>
+                <a class="nav-link" name="drinks" href="?food=0">Order drinks</a>
             </li>
         </ul>
     </nav>
@@ -25,7 +25,8 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control" value="<?= $email ?>" />
+                <input type="text" id="email" name="email" class="form-control" 
+                value="<?php if(isset($_POST['send'])){ echo $email;}; ?>" />
             </div>
             <div></div>
         </div>
@@ -36,40 +37,44 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control" value="<?= $street ?>">
+                    <input type="text" name="street" id="street" class="form-control" 
+                    value=" <?php if(isset($_POST['send'])){ echo $street;}; ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?= $streetNumber ?>">
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" 
+                    value="<?php if(isset($_POST['send'])){ echo $streetNumber; }; ?>">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" value="<?= $city ?>">
+                    <input type="text" id="city" name="city" class="form-control" 
+                    value="<?php if(isset($_POST['send'])){ echo $city; }; ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?= $zipCode ?>">
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" 
+                    value="<?php if(isset($_POST['send'])){ echo $zipCode;}; ?>">
                 </div>
             </div>
         </fieldset>
 
         <fieldset>
             <legend>Products</legend>
-            <?php foreach ($products AS $i => $product): ?>
+            <?php foreach ($products AS $i => $product):  ?>
                 <label>
-                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
+                    <input type="checkbox" value="1" name="choix[]" value="<?= $i ?>" <?php  if(isset($_POST['choix'])){ $select[$i] = $product; };?>/> <?php echo $product['name'] ?> -
                     &euro; <?php echo number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
         </fieldset>
         
         <label>
-            <input type="checkbox" name="express_delivery" value="5" /> 
+            <input type="checkbox" name="express_delivery" value="5" <?php  if(isset($_POST['express_delivery'])){ echo 'checked'; }; ?>/> 
             Express delivery (+ 5 EUR) 
         </label>
             
-        <button type="submit" class="btn btn-primary">Order!</button>
+        <button type="submit" class="btn btn-primary" name="send" > Order!</button>
     </form>
 
     <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in pizza(s) and drinks.</footer>
