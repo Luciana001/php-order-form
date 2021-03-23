@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -26,7 +28,7 @@
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
                 <input type="text" id="email" name="email" class="form-control" 
-                value="<?php if(isset($_POST['send'])){ echo $email;}; ?>" />
+                value="<?php if(isset($_POST['send']) ){ echo $email;}; ?>" />
             </div>
             <div></div>
         </div>
