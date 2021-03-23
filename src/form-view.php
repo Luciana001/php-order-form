@@ -64,8 +64,8 @@
             <legend>Products</legend>
             <?php foreach ($products AS $i => $product):  ?>
                 <label>
-                    <input type="checkbox" value="1" name="choix[]" value="<?= $i ?>" <?php  if(isset($_POST['choix'])){ $select[$i] = $product; };?>/> <?php echo $product['name'] ?> -
-                    &euro; <?php echo number_format($product['price'], 2) ?></label><br />
+                    <input type="checkbox" value="<?php $product['name'] ?>" name="products[<?php echo $i ?>]" /> <?php echo $product['name'] ?> 
+                    -&euro; <?php echo number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
         </fieldset>
         
@@ -73,6 +73,7 @@
             <input type="checkbox" name="express_delivery" value="5" <?php  if(isset($_POST['express_delivery'])){ echo 'checked'; }; ?>/> 
             Express delivery (+ 5 EUR) 
         </label>
+        
             
         <button type="submit" class="btn btn-primary" name="send" > Order!</button>
     </form>

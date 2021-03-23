@@ -26,7 +26,7 @@ $drinks = [
     ['name' => 'Sprite', 'price' => 2],
     ['name' => 'Ice-tea', 'price' => 2.2],
 ];
-
+$totalValue = 0;
 $products = $pizzas;
 
 if(isset($_GET['food'])){
@@ -38,7 +38,6 @@ if(isset($_GET['food'])){
 if(isset($_POST['send'])){
 
     $select= [];
-    
     $email = $_POST['email'];
     $street = $_POST['street'];
     $streetNumber = $_POST['streetnumber'];
@@ -52,25 +51,29 @@ if(isset($_POST['send'])){
         $minute = 0 .$minute;
     }
     
-
     if(isset($_POST['express_delivery'])){
         $minute = $minute + 30;
-        
-
         if ($minute >= 60){
             $heure = $heure + 1; 
             $minute = $minute - 60; 
         }
         $time = $heure."h".$minute; //heure de livraison (+30min)
-    }
-    else $time = $heure + 1 ."h".$minute; //heure de livraison (+1h)
+        $totalValue = 5;
+    }else $time = $heure + 1 ."h".$minute; //heure de livraison (+1h)
 
-    if(isset($_POST['choix'])){
-        var_dump($select);
+    if(isset($_POST['products'])){
+        $a = $_POST['products'];
+        foreach($a as $i => $valeur){
+            $valeur = $products[$i]['price'];
+            echo $valeur.',';
+            $totalValue += $valeur;
+        }
+        //$_SESSION['total-price'] = $totalValue;
+        
     }
     
 
-    if (empty($_POST['email']) || empty($_POST['street']) || empty($_POST['streetnumber']) || empty($_POST['city']) || empty($_POST['zipcode'])){
+    if (empty($_POST['email']) || empty($_POST['street']) || empty($_POST['streetnumber']) || empty($_POST['city']) || empty($_POST['zipcode']) ){
 		echo "<div class='alert alert-danger' role='alert'>ERREUR : tous les champs n'ont pas ete renseignés. </div>";
 	}elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
         echo "<div class='alert alert-danger' role='alert'>L'adresse e-mail n'est pas valide</div>";
@@ -79,6 +82,8 @@ if(isset($_POST['send'])){
     }
     elseif(!filter_var($zipCode, FILTER_VALIDATE_INT)){
         echo "<div class='alert alert-danger' role='alert'>Le code postal doit être un nombre. </div>";
+    }elseif (!isset ($_POST["products"])) {
+        echo '<div class="alert alert-danger"role="alert"> Invalid selection </div>';
     }else echo "<div class='alert alert-success' role='alert'>Commande envoyée! Livraison prévue à $time</div>";
 }
 
@@ -98,6 +103,6 @@ if(isset($_POST['send'])){
 //     var_dump($_SESSION);
 // }
 
-$totalValue = 0;
+
 
 require 'form-view.php';
